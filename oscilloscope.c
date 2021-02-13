@@ -36,7 +36,11 @@ int main() {
 
 	// initialize the level of the game
 	int level = 0;
+
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
 		gpio_put(LED_PIN, 0); // turn off the led
-		sleep_ms(
+		sleep_ms(100); // sleep for 0.1s
+		gpio_put(LED_PIN, 1);
+		sleep_ms(100); // slep for 0.1s
+		if 
