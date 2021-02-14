@@ -19,7 +19,7 @@ const uint PIN_4 = 2;
 // The main part of the code
 int main() {
 	// test the led and the binary to check debugging
-	bi_decl(bi_program_description ('This is a test binary."));
+	bi_decl(bi_program_description ("This is a test binary."));
 	bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
 	bi_decl(bi_1pin_with_name(PIN_10, "Level-1"));
 	bi_decl(bi_1pin_with_name(PIN_12, "Level-2"));
