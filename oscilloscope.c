@@ -43,4 +43,5 @@ int main() {
 		sleep_ms(100); // sleep for 0.1s
 		gpio_put(LED_PIN, 1);
 		sleep_ms(100); // slep for 0.1s
-		if 
+	}
+}
