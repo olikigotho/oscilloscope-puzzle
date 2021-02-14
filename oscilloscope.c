@@ -44,9 +44,9 @@ int main() {
 
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
-		gpio_put(LED_PIN, 0); // turn off the led
+		gpio_put(PIN_10, 0); // turn off pin 10
 		sleep_ms(100); // sleep for 0.1s
-		gpio_put(LED_PIN, 1); //turn on the led
+		gpio_put(PIN_10, 1); //turn on pin 10
 		sleep_ms(100); // slep for 0.1s
 	}
 }
