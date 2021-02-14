@@ -10,13 +10,6 @@ Project Description: This is the beginning of a code running in C/C++ on the rap
 
 // The main part of the code
 int main() {
-	// test the led and the binary to check debugging
-	bi_decl(bi_program_description ("This is a test binary."));
-	bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
-	bi_decl(bi_1pin_with_name(PIN_10, "Level-1"));
-	bi_decl(bi_1pin_with_name(PIN_12, "Level-2"));
-	bi_decl(bi_1pin_with_name(PIN_4, "Level-3"));
-
 	//intialize the input output libraries for the pico
 	stdio_init_all();
 
@@ -26,6 +19,13 @@ int main() {
 	const uint PIN_10 = 7;
 	const uint PIN_12 = 9;
 	const uint PIN_4 = 2;
+
+	// test the led and the binary to check debugging
+        bi_decl(bi_program_description ("This is a test binary."));
+        bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
+        bi_decl(bi_1pin_with_name(PIN_10, "Level-1"));
+        bi_decl(bi_1pin_with_name(PIN_12, "Level-2"));
+        bi_decl(bi_1pin_with_name(PIN_4, "Level-3"));
 
 	// intialize the LED pins on the pico
 	gpio_init(LED_PIN);
