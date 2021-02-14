@@ -28,11 +28,11 @@ int main() {
 	//intialize the input output libraries for the pico
 	stdio_init_all();
 
-	//initialize the gpio library
-	gpio_init_all();
-
 	// intialize the LED pins on the pico
 	gpio_init(LED_PIN);
+	gpio_init(PIN_10);
+	gpio_init(PIN_12);
+	gpio_init(PIN_4);
 
 	// initialize the level of the game
 	int level = 0;
