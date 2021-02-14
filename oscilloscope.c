@@ -6,15 +6,7 @@
 
 /*
 Project Description: This is the beginning of a code running in C/C++ on the rapsberry pi pico
-*/
-
-//define the output pins. Note, these pins are the GP number not on the board
-const uint LED_PIN = 25;
-// hint: look up what 792 is in Pophams signal telegraph
-const uint PIN_10 = 7;
-const uint PIN_12 = 9;
-const uint PIN_4 = 2;
-
+*
 
 // The main part of the code
 int main() {
@@ -28,11 +20,24 @@ int main() {
 	//intialize the input output libraries for the pico
 	stdio_init_all();
 
+	//define the output pins. Note, these pins are the GP number not on the board
+	const uint LED_PIN = 25;
+	// hint: look up what 792 is in Pophams signal telegraph
+	const uint PIN_10 = 7;
+	const uint PIN_12 = 9;
+	const uint PIN_4 = 2;
+
 	// intialize the LED pins on the pico
 	gpio_init(LED_PIN);
 	gpio_init(PIN_10);
 	gpio_init(PIN_12);
 	gpio_init(PIN_4);
+
+	// set the GPIO directions
+	gpio_set_dir(LED_PIN, GPIO_OUT);
+	gpio_set_dir(PIN_10, GPIO_OUT);
+	gpio_set_dir(PIN_12, GPIO_OUT);
+	gpio_set_dir(PIN_4, GPIO_OUT);
 
 	// initialize the level of the game
 	int level = 0;
@@ -41,7 +46,7 @@ int main() {
 	while (1) {
 		gpio_put(LED_PIN, 0); // turn off the led
 		sleep_ms(100); // sleep for 0.1s
-		gpio_put(LED_PIN, 1);
+		gpio_put(LED_PIN, 1); //turn on the led
 		sleep_ms(100); // slep for 0.1s
 	}
 }
