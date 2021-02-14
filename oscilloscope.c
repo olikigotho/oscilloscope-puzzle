@@ -6,7 +6,7 @@
 
 /*
 Project Description: This is the beginning of a code running in C/C++ on the rapsberry pi pico
-*
+*/
 
 // The main part of the code
 int main() {
