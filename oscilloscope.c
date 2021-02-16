@@ -1,3 +1,4 @@
+
 // List the libraries necessary for the pico
 #include <stdio.h>//standard input output library
 #include "pico/stdlib.h"//pico input output library
@@ -15,9 +16,9 @@ char *morse_code (char text[]) {// retrun a pointer to the code
         char* p;// make a pointer to the string character
         int i = 0; // declare an index
 
-	int clen;
-	int len = strlen(text);
-	int siglen;
+	int clen;// length of the code
+	int len = strlen(text); // length  of the text
+	int siglen; // length of the singal
         // loop throught the text and make a vector
         for (i = 0; i < len; i++ ){
                 //encode the signal into binary string
@@ -206,7 +207,7 @@ int main() {
 	//define the output pins. Note, these pins are the GP number not on the board
 	const uint LED_PIN = 25;
 	// hint: look up what 792 is in Pophams signal telegraph
-	const uint PIN_10 = 7, PIN_12 = 9, PIN_4 = 2;
+	const uint PIN_10 = 7, PIN_12 = 9, PIN_4 = 2, PIN_14 = 10;
 
 	// test the led and the binary to check debugging
         bi_decl(bi_program_description ("This is a test binary."));
@@ -214,27 +215,37 @@ int main() {
         bi_decl(bi_1pin_with_name(PIN_10, "Level-1"));
         bi_decl(bi_1pin_with_name(PIN_12, "Level-2"));
         bi_decl(bi_1pin_with_name(PIN_4, "Level-3"));
+	bi_decl(bi_1pin_with_name(PIN_14, "In-1"));
 
 	// intialize the LED pins on the pico
 	gpio_init(LED_PIN);
 	gpio_init(PIN_10);
 	gpio_init(PIN_12);
 	gpio_init(PIN_4);
+	gpio_init(PIN_14);
 
 	// set the GPIO directions
 	gpio_set_dir(LED_PIN, GPIO_OUT);
 	gpio_set_dir(PIN_10, GPIO_OUT);
 	gpio_set_dir(PIN_12, GPIO_OUT);
 	gpio_set_dir(PIN_4, GPIO_OUT);
+	gpio_set_dir(PIN_14, GPIO_IN);
 
 	// initialize the level of the game
 	int level = 0;
 	char *h;
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
-		h = morse_code("Hello World K");
-		free(h);
-		printf("%s\n", h);
-		sleep_ms(1000);
+		while (gpio_get(PIN_14)) {
+			gpio_put(LED_PIN, 1);
+			sleep_ms(250);
+			gpio_put(LED_PIN, 0);
+			sleep_ms(250);
+		}
+                h = morse_code("Hello World K");
+                free(h);
+                printf("%s\n", h);
+                sleep_ms(1000);
+		sleep_ms(250);
 	}
 }
