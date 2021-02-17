@@ -6,6 +6,8 @@
 #include "pico/binary_info.h"// binary viewing library
 #include "string.h"// string operaations library
 #include <stdlib.h>
+#include <time.h> // include the time library
+
 /*
 Project Description: This is the beginning of a code running in C/C++ on the rapsberry pi pico
 */
@@ -234,8 +236,55 @@ int main() {
 	// initialize the level of the game
 	int level = 0;
 	char *h;
+
+	double old, now , diff;// used for measuring the timestaps
+	old =  time_us_32(); // measure the time at the beginning of the code
+
+	double oldc, nowc, diffc; // use these for measuring the signal
+
+	int timestep = 400; // tmistemp of the morse code signal
+	char signal[10000]; // return the character of the signal
+	char value;
+
+	int i; //declare and indexicng variable
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
+		if (level == 0) {
+			h = morse_code("Hello World");
+			strcpy(signal,h);
+			free(h);
+			i = 0;
+			while (i <= strlen(signal)) {
+				now =  time_us_32();
+				nowc = now;
+				diff = (double)(now - old)/1000;
+				diffc = (double)(nowc -oldc)/1000;
+				printf("%f\n", diffc);
+				if (diffc > timestep){
+					i = i + 1;
+					printf("reset\n");
+					oldc = time_us_32();
+				}
+				if (signal[i] == '0') {
+					printf("low\n");
+					gpio_put(LED_PIN, 0);
+				} else {
+					printf("high\n");
+					gpio_put(LED_PIN, 1);
+				}
+	               	}
+		}
+/*		if (diff > 200 ) {
+			printf("%f\n", diff);
+			gpio_put(LED_PIN, 1);
+			old = time_us_32();
+		} else if (diff > 100){
+			gpio_put(LED_PIN, 0);
+			printf("%f\n", diff);
+		} else {
+			printf("%f\n", diff);
+		}
+		sleep_ms(5);
 		while (gpio_get(PIN_14)) {
 			gpio_put(LED_PIN, 1);
 			sleep_ms(250);
@@ -243,9 +292,6 @@ int main() {
 			sleep_ms(250);
 		}
                 h = morse_code("Hello World K");
-                free(h);
-                printf("%s\n", h);
-                sleep_ms(1000);
-		sleep_ms(250);
+                sleep_ms(1000);*/
 	}
 }
