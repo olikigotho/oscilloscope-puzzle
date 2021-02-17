@@ -209,7 +209,7 @@ int main() {
 	//define the output pins. Note, these pins are the GP number not on the board
 	const uint LED_PIN = 25;
 	// hint: look up what 792 is in Pophams signal telegraph
-	const uint PIN_10 = 7, PIN_12 = 9, PIN_4 = 2, PIN_14 = 10;
+	const uint PIN_10 = 7, PIN_12 = 9, PIN_4 = 2, PIN_14 = 10, PIN_34 = 28, PIN_24 = 18;
 
 	// test the led and the binary to check debugging
         bi_decl(bi_program_description ("This is a test binary."));
@@ -218,6 +218,8 @@ int main() {
         bi_decl(bi_1pin_with_name(PIN_12, "Level-2"));
         bi_decl(bi_1pin_with_name(PIN_4, "Level-3"));
 	bi_decl(bi_1pin_with_name(PIN_14, "In-1"));
+	bi_decl(bi_1pin_with_name(PIN_34, "In-2"));
+	bi_decl(bi_1pin_with_name(PIN_24, "In-3"));
 
 	// intialize the LED pins on the pico
 	gpio_init(LED_PIN);
@@ -225,6 +227,8 @@ int main() {
 	gpio_init(PIN_12);
 	gpio_init(PIN_4);
 	gpio_init(PIN_14);
+	gpio_init(PIN_34);
+	gpio_init(PIN_24);
 
 	// set the GPIO directions
 	gpio_set_dir(LED_PIN, GPIO_OUT);
@@ -232,6 +236,8 @@ int main() {
 	gpio_set_dir(PIN_12, GPIO_OUT);
 	gpio_set_dir(PIN_4, GPIO_OUT);
 	gpio_set_dir(PIN_14, GPIO_IN);
+	gpio_set_dir(PIN_34, GPIO_IN);
+	gpio_set_dir(PIN_24, GPIO_IN);
 
 	// initialize the level of the game
 	int level = 0;
@@ -242,7 +248,7 @@ int main() {
 
 	double oldc, nowc, diffc; // use these for measuring the signal
 
-	int timestep = 400; // tmistemp of the morse code signal
+	int timestep = 150; // tmistemp of the morse code signal
 	char signal[10000]; // return the character of the signal
 	char value;
 
@@ -250,7 +256,7 @@ int main() {
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
 		if (level == 0) {
-			h = morse_code("Hello World");
+			h = morse_code("DE Oli. Next? Power pin 14. Nelson says: England expects pin 12.");
 			strcpy(signal,h);
 			free(h);
 			i = 0;
@@ -259,39 +265,131 @@ int main() {
 				nowc = now;
 				diff = (double)(now - old)/1000;
 				diffc = (double)(nowc -oldc)/1000;
-				printf("%f\n", diffc);
 				if (diffc > timestep){
 					i = i + 1;
-					printf("reset\n");
 					oldc = time_us_32();
 				}
 				if (signal[i] == '0') {
-					printf("low\n");
+					gpio_put(PIN_10, 0);
+				} else {
+					gpio_put(PIN_10, 1);
+				}
+				if (diff > 1000) {
+					gpio_put(LED_PIN, 1);
+					old = time_us_32();
+				} else if (diff > 100) {
 					gpio_put(LED_PIN, 0);
 				} else {
-					printf("high\n");
 					gpio_put(LED_PIN, 1);
 				}
+				if (gpio_get(PIN_14)) {
+					level = 1;
+					gpio_put(PIN_10 ,1);
+					i = strlen(signal) + 1;
+				}
 	               	}
+                } else if (level == 1) {
+                        h = morse_code("2762 1863 630 15 9 13 34 1542 2220 15 9 13 4 46");
+			/*
+			Do you understand? Then power p i n number 34. Go for dispatches at pin number 4 Africa 
+			*/
+                        strcpy(signal,h);
+                        free(h);
+                        i = 0;
+                        while (i <= strlen(signal)) {
+                                now =  time_us_32();
+                                nowc = now;
+                                diff = (double)(now - old)/1000;
+                                diffc = (double)(nowc -oldc)/1000;
+                                if (diffc > timestep){
+                                        i = i + 1;
+                                        oldc = time_us_32();
+                                }
+                                if (signal[i] == '0') {
+                                        gpio_put(PIN_12, 0);
+                                } else {
+                                        gpio_put(PIN_12, 1);
+                                }
+                                if (diff > 1000) {
+                                        gpio_put(LED_PIN, 1);
+                                        old = time_us_32();
+				} else if (diff > 300) {
+					gpio_put(LED_PIN,0);
+				} else if (diff > 200) {
+					gpio_put(LED_PIN,1);
+                                } else if (diff > 100) {
+                                        gpio_put(LED_PIN, 0);
+                                } else {
+                                        gpio_put(LED_PIN, 1);
+                                }
+				if (gpio_get(PIN_34 )) {
+					gpio_put(PIN_12, 1);
+                                        level = 2;
+					i = strlen(signal) + 1;
+                                }
+                        }
+                } else if (level == 2) {
+                        h = morse_code("22 5 10 1 18 19 9 19 1 10 22 1 13 1 19 2 1 24 9 24");
+			/* W e k a s t i m a k w a n a m b a r i 24 */
+                        strcpy(signal,h);
+                        free(h);
+                        i = 0;
+                        while (i <= strlen(signal)) {
+                                now =  time_us_32();
+                                nowc = now;
+                                diff = (double)(now - old)/1000;
+                                diffc = (double)(nowc -oldc)/1000;
+                                if (diffc > timestep){
+                                        i = i + 1;
+                                        oldc = time_us_32();
+                                }
+                                if (signal[i] == '0') {
+                                        gpio_put(PIN_4, 0);
+                                } else {
+                                        gpio_put(PIN_4, 1);
+                                }
+                                if (diff > 1000) {
+                                        gpio_put(LED_PIN, 1);
+                                        old = time_us_32();
+				} else if (diff > 500) {
+                                        gpio_put(LED_PIN, 0);
+				} else if (diff > 400) {
+                                        gpio_put(LED_PIN, 1);
+				} else if (diff > 300) {
+                                        gpio_put(LED_PIN, 0);
+				} else if (diff > 200) {
+                                        gpio_put(LED_PIN, 1);
+                                } else if (diff > 100) {
+                                        gpio_put(LED_PIN, 0);
+                                } else {
+                                        gpio_put(LED_PIN, 1);
+                                }
+				if (gpio_get(PIN_24)) {
+                                        level = 3;
+					gpio_put(PIN_4,1);
+					i = strlen(signal) + 1;
+
+                                }
+                        }
+                } else {
+			printf("Insert hash here"); // insert hash here.
+			oldc = time_us_32();
+			old = oldc;
+			while (1) {
+                                now =  time_us_32();
+                                nowc = now;
+                                diff = (double)(now - old)/1000;
+                                diffc = (double)(nowc -oldc)/1000;
+                                if (diff > 200) {
+                                        gpio_put(LED_PIN,1);
+					oldc = time_us_32();
+					old = oldc;
+                                } else if (diff > 100) {
+                                        gpio_put(LED_PIN, 0);
+                                } else {
+                                        gpio_put(LED_PIN, 1);
+                                }
+                        }
 		}
-/*		if (diff > 200 ) {
-			printf("%f\n", diff);
-			gpio_put(LED_PIN, 1);
-			old = time_us_32();
-		} else if (diff > 100){
-			gpio_put(LED_PIN, 0);
-			printf("%f\n", diff);
-		} else {
-			printf("%f\n", diff);
-		}
-		sleep_ms(5);
-		while (gpio_get(PIN_14)) {
-			gpio_put(LED_PIN, 1);
-			sleep_ms(250);
-			gpio_put(LED_PIN, 0);
-			sleep_ms(250);
-		}
-                h = morse_code("Hello World K");
-                sleep_ms(1000);*/
 	}
 }
