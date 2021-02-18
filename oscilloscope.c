@@ -248,11 +248,16 @@ int main() {
 
 	double oldc, nowc, diffc; // use these for measuring the signal
 
-	int timestep = 150; // tmistemp of the morse code signal
+	int timestep = 1; // tmistemp of the morse code signal
 	char signal[10000]; // return the character of the signal
 	char value;
 
 	int i; //declare and indexicng variable
+
+	//give the instruction
+	sleep_ms(2000); // wait to connect to minicom
+	printf("Start listening to pin number 10.\n");
+
 	// While loop for the system to excute. 1 indicates the bool true
 	while (1) {
 		if (level == 0) {
@@ -289,7 +294,7 @@ int main() {
 				}
 	               	}
                 } else if (level == 1) {
-                        h = morse_code("2762 1863 630 15 9 13 34 1542 2220 15 9 13 4 46");
+                        h = morse_code("2762 1863 630 15 9 13 34 1542 2220 15 9 13 4 46 K");
 			/*
 			Do you understand? Then power p i n number 34. Go for dispatches at pin number 4 Africa 
 			*/
@@ -329,7 +334,7 @@ int main() {
                                 }
                         }
                 } else if (level == 2) {
-                        h = morse_code("22 5 10 1 18 19 9 19 1 10 22 1 13 1 19 2 1 24 9 24");
+                        h = morse_code("22 5 10 1 18 19 9 19 1 10 22 1 13 1 19 2 1 24 9 24 K");
 			/* W e k a s t i m a k w a n a m b a r i 24 */
                         strcpy(signal,h);
                         free(h);
@@ -372,7 +377,7 @@ int main() {
                                 }
                         }
                 } else {
-			printf("Insert hash here"); // insert hash here.
+			printf("f314657a25bd7b87d4de264fa99722b600f7676d30be79d6bcc1fc82ae407f9a"); // insert hash here.
 			oldc = time_us_32();
 			old = oldc;
 			while (1) {
